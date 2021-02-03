@@ -2,15 +2,12 @@
   "name": "artillery-repl",
   "version": "0.0.1",
   "description": "",
-  "main": "server.js",
-  "directories": {
-    "lib": "lib"
-  },
+  "main": "dist/index.js",
   "scripts": {
-    "build": "tsc index.ts",
-    "watch": "tsc -w --project tsconfig.json",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon dist/index.js"
+    "build": "tsc",
+    "watch": "tsc -w",
+    "test": "tap",
+    "start": "nodemon index.ts"
   },
   "repository": {
     "type": "git",
