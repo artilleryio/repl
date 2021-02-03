@@ -57,7 +57,7 @@ document.addEventListener("keydown", (event) => {
 });
 
 socket.on("artilleryOutput", (data) => {
-  resultElement.innerText += data;
+  resultElement.innerText += data.raw;
 });
 
 socket.on("artilleryStatus", (status) => {
