@@ -47,12 +47,22 @@
           <textarea id="editor" rows="75"></textarea>
         </div>
         <div class="column has-background-white-ter">
-          <pre id="result"></pre>
+          <div class="is-pulled-right">
+            <a id="chart-link" class="p-2">chart</a><a id="raw-link" class="p-2">raw</a>
+          </div>
+          <div id="raw-panel" style="display: none;">
+            <pre id="result"></pre>
+          </div>
+          <div id="chart-panel" class="m-6">
+            <div id="loading-message" style="display: none;" class="has-text-centered">Loading data...</div>
+            <canvas id="chart-canvas" class="chartjs"></canvas>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
   <script src="script.js"></script>
 </body>
 </html>

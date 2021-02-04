@@ -2,16 +2,18 @@ import stream from "stream";
 
 export class Parser extends stream.Transform {
   private codesMatch: RegExp;
+  private summaryReport: RegExp;
   private inCodes: boolean;
-  private raw: string;
+  private isSummaryReport: boolean;
   private codes: Record<string, number>;
 
   constructor(opts?: stream.TransformOptions) {
     super(opts);
 
     this.codesMatch = /Codes:/;
+    this.summaryReport = /All virtual users finished/;
     this.inCodes = false;
-    this.raw = "";
+    this.isSummaryReport = false;
     this.codes = {};
   }
 
@@ -26,13 +28,13 @@ export class Parser extends stream.Transform {
       if (!line.length) {
         this.push(
           JSON.stringify({
-            raw: `${this.raw}\n`,
             codes: this.codes,
+            text: "\n",
+            summaryReport: this.isSummaryReport,
           })
         );
 
         this.inCodes = false;
-        this.raw = "";
         this.codes = {};
 
         return callback();
@@ -47,10 +49,13 @@ export class Parser extends stream.Transform {
       this.inCodes = true;
     }
 
+    if (line.match(this.summaryReport)) {
+      this.isSummaryReport = true;
+    }
+
     this.push(
       JSON.stringify({
-        raw: line.length ? `${line}\n` : line,
-        codes: {},
+        text: line.length ? `${line}\n` : line,
       })
     );
 
