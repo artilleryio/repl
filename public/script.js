@@ -103,6 +103,9 @@ rawLink.addEventListener("click", (event) => {
 
   chartPanel.style.display = "none";
   rawPanel.style.display = "block";
+
+  rawLink.classList.add("active-link");
+  chartLink.classList.remove("active-link");
 });
 
 chartLink.addEventListener("click", (event) => {
@@ -110,6 +113,9 @@ chartLink.addEventListener("click", (event) => {
 
   rawPanel.style.display = "none";
   chartPanel.style.display = "block";
+
+  chartLink.classList.add("active-link");
+  rawLink.classList.remove("active-link");
 });
 
 document.addEventListener("keydown", (event) => {
