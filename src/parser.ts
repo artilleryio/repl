@@ -1,13 +1,13 @@
-import stream from "stream";
+import { Transform, TransformOptions, TransformCallback } from "stream";
 
-export class Parser extends stream.Transform {
+export class Parser extends Transform {
   private codesMatch: RegExp;
   private summaryReport: RegExp;
   private inCodes: boolean;
   private isSummaryReport: boolean;
   private codes: Record<string, number>;
 
-  constructor(opts?: stream.TransformOptions) {
+  constructor(opts?: TransformOptions) {
     super(opts);
 
     this.codesMatch = /Codes:/;
@@ -17,31 +17,33 @@ export class Parser extends stream.Transform {
     this.codes = {};
   }
 
-  _transform(
-    chunk: Buffer,
-    _: BufferEncoding,
-    callback: stream.TransformCallback
-  ) {
+  getResponseCodes(line: string) {
+    if (!line.length) {
+      this.push(
+        JSON.stringify({
+          codes: this.codes,
+          text: "\n",
+          summaryReport: this.isSummaryReport,
+        })
+      );
+
+      this.inCodes = false;
+      this.codes = {};
+    } else {
+      const [responseCode, count] = line.trim().split(": ");
+
+      this.codes[responseCode] = parseInt(count, 10);
+    }
+  }
+
+  _transform(chunk: Buffer, _: BufferEncoding, callback: TransformCallback) {
     const line = chunk.toString();
 
     if (this.inCodes) {
+      this.getResponseCodes(line);
+
       if (!line.length) {
-        this.push(
-          JSON.stringify({
-            codes: this.codes,
-            text: "\n",
-            summaryReport: this.isSummaryReport,
-          })
-        );
-
-        this.inCodes = false;
-        this.codes = {};
-
         return callback();
-      } else {
-        const [responseCode, count] = line.trim().split(": ");
-
-        this.codes[responseCode] = parseInt(count, 10);
       }
     }
 
