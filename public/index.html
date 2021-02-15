@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Artillery REPL</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+  <link rel="stylesheet" href="lib/codemirror.css">
+  <script src="lib/codemirror.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="lib/yaml/yaml.js"></script>
+</head>
+<body>
+  <nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://artillery.io">
+        <img src="https://artillery.io/images/artillery-logo-square.png">
+      </a>
+      <section class="hero is-small">
+        <div class="hero-body">
+          <p class="title">
+            Artillery
+          </p>
+        </div>
+      </section>
+    </div>
+
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <div class="buttons">
+            <a class="button is-success is-primary" id="run-scenario">
+              <strong>Run</strong>
+            </a>
+            <a class="button is-danger is-primary" style="display: none;" id="stop-scenario">
+              <strong>Stop</strong>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <section class="section">
+    <div class="container">
+      <div class="columns">
+        <div class="column">
+          <textarea id="editor" rows="75"></textarea>
+        </div>
+        <div class="column has-background-white-ter">
+          <pre id="result"></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
