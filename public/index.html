@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
   <link rel="stylesheet" href="lib/codemirror.css">
-  <link rel="stylesheet" href="/main.css">
   <script src="lib/codemirror.js"></script>
   <script src="/socket.io/socket.io.js"></script>
   <script src="lib/yaml/yaml.js"></script>
@@ -48,22 +47,12 @@
           <textarea id="editor" rows="75"></textarea>
         </div>
         <div class="column has-background-white-ter">
-          <div class="is-pulled-right">
-            <a id="chart-link" class="is-hovered p-2">chart</a><a id="raw-link" class="p-2">raw</a>
-          </div>
-          <div id="raw-panel" style="display: none;">
-            <pre id="result"></pre>
-          </div>
-          <div id="chart-panel" class="m-6">
-            <div id="loading-message" style="display: none;" class="has-text-centered">Loading data...</div>
-            <canvas id="chart-canvas" class="chartjs"></canvas>
-          </div>
+          <pre id="result"></pre>
         </div>
       </div>
     </div>
   </section>
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
   <script src="script.js"></script>
 </body>
 </html>

@@ -4,9 +4,6 @@ import ioserver from "socket.io";
 import { createServer } from "http";
 import { createWriteStream } from "fs";
 import * as childProcess from "child_process";
-import split from "split";
-
-import { Parser } from "./src/parser";
 
 const app = express();
 const http = createServer(app);
@@ -36,16 +33,9 @@ app.post("/run", async (req, res) => {
       io.emit("artilleryStatus", ArtilleryStatus.RUNNING);
 
       if (child.stdout) {
-        const parser = new Parser();
-
-        child.stdout
-          .pipe(split())
-          .pipe(parser)
-          .on("data", (output) => {
-            const parsedOutput = JSON.parse(output.toString());
-
-            io.emit("artilleryOutput", parsedOutput);
-          });
+        child.stdout.on("data", (output) => {
+          io.emit("artilleryOutput", output.toString());
+        });
 
         child.stdout.on("end", () => {
           io.emit("artilleryStatus", ArtilleryStatus.READY);
