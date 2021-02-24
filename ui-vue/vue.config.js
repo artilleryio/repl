@@ -1,2 +1,5 @@
 module.exports = {
-}
+  devServer: {
+    proxy: "",
+  },
+};

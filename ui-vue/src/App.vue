@@ -1,6 +1,9 @@
 <template>
   <div id="app">
         <div class="container mx-auto p-6">
+        <vue-tailwind-modal :showing="shareModalShowing" @close="shareModalShowing = false" :showClose="true" :backgroundClose="true">
+          <input type=text style="width: 100%" disabled=true :value="scenarioUrl" />
+        </vue-tailwind-modal>
 
         <h1 style="fontFamily: Martel" class="fg-gradient-purple-red text-4xl pb-3 tracking-tight font-extrabold sm:text-5xl md:text-5xl">
           API REPL
@@ -97,10 +100,6 @@ function run () {
   window.ws.send(JSON.stringify({input: enc, opts:{}}));
 }
 
-function share () {
-  console.log(this.$route);
-}
-
 const defaultContents = `# Write your scenario here and press Run to run it!
 config:
   target: "https://artillery.io" # this the endpoint we want to interact with
@@ -120,6 +119,8 @@ scenarios:
 `;
 console.log(defaultContents);
 
+const POST_ENDPOINT = 'dev/save'
+
 export default {
   name: 'App',
   components: {
@@ -129,7 +130,7 @@ export default {
     return {
       code: defaultContents,
       learnMore: false,
-
+      shareModalShowing: false,
       cmOptions: {
         tabSize: 4,
         mode: 'text/yaml',
@@ -151,7 +152,31 @@ export default {
       this.items = items;
     },
     run,
-    share,
+    async share() {
+      const scenario = btoa(this.code);
+      const output = btoa(this.$root.$children[0].items.reduce((output, item) => {
+        if (item.data) {
+          return `${output}${item.data}`
+        }
+
+        return output
+      }, ''))
+
+      const response = await fetch(POST_ENDPOINT, {
+        method: 'POST',
+        body: JSON.stringify({
+          scenario,
+          output
+        })
+      })
+
+      if (response.ok) {
+        const { key } = await response.json()
+
+        this.scenarioUrl = `https://repl.artillery.io/s/${key}`
+        this.shareModalShowing = true
+      }
+    },
     editorMounted(editor, monaco) {
       monaco.languages.register('json');
     },
