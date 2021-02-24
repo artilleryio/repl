@@ -120,6 +120,32 @@ scenarios:
 console.log(defaultContents);
 
 const POST_ENDPOINT = 'dev/save'
+const GET_ENDPOINT = 'dev/get'
+
+// these are here just because artillery is spitting out an update error that is breaking base64 encoding/decoding
+function base64encode(str) {
+  let encode = encodeURIComponent(str).replace(/%([a-f0-9]{2})/gi, (m, $1) => String.fromCharCode(parseInt($1, 16)))
+  return btoa(encode)
+}
+
+function base64decode(str) {
+  let decode = atob(str).replace(/[\x80-\uffff]/g, (m) => `%${m.charCodeAt(0).toString(16).padStart(2, '0')}`)
+  return decodeURIComponent(decode)
+}
+
+const getScenario = async (key) => {
+  if (!key) {
+    return
+  }
+
+  const response = await fetch(`${GET_ENDPOINT}/${key}`)
+  const data = await response.json()
+
+  return {
+    scenario: base64decode(data.scenario),
+    output: base64decode(data.output),
+  }
+}
 
 export default {
   name: 'App',
@@ -131,6 +157,7 @@ export default {
       code: defaultContents,
       learnMore: false,
       shareModalShowing: false,
+      scenarioUrl: '',
       cmOptions: {
         tabSize: 4,
         mode: 'text/yaml',
@@ -153,28 +180,32 @@ export default {
     },
     run,
     async share() {
-      const scenario = btoa(this.code);
-      const output = btoa(this.$root.$children[0].items.reduce((output, item) => {
-        if (item.data) {
-          return `${output}${item.data}`
-        }
+      try {
+        const scenario = btoa(this.code);
+        const output = this.$root.$children[0].items.reduce((s, item) => {
+          if (item.data) {
+            return `${s}${item.data}`
+          }
 
-        return output
-      }, ''))
+          return s
+        }, '')
 
-      const response = await fetch(POST_ENDPOINT, {
-        method: 'POST',
-        body: JSON.stringify({
-          scenario,
-          output
+        const response = await fetch(POST_ENDPOINT, {
+          method: 'POST',
+          body: JSON.stringify({
+            scenario,
+            output: base64encode(output)
+          })
         })
-      })
 
-      if (response.ok) {
-        const { key } = await response.json()
+        if (response.ok) {
+          const { key } = await response.json()
 
-        this.scenarioUrl = `https://repl.artillery.io/s/${key}`
-        this.shareModalShowing = true
+          this.scenarioUrl = `https://repl.artillery.io/#/${key}`
+          this.shareModalShowing = true
+        }
+      } catch(err) {
+        console.log(err)
       }
     },
     editorMounted(editor, monaco) {
@@ -199,9 +230,17 @@ export default {
       return (typeof window.ws !== undefined);
     }
   },
-  mounted() {
+  async mounted() {
     console.log('the current CodeMirror instance object:', this.codemirror)
-    // do things with this.codemirror
+
+    if (this.$route.params.key) {
+      const { scenario, output } = await getScenario(this.$route.params.key);
+
+      this.code = scenario
+      this.items = [{
+        data: output
+      }]
+    }
   }
 };
 </script>

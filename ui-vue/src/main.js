@@ -19,7 +19,7 @@ Vue.use(VueRouter);
 
 const routes = [
   {
-    path: "/s",
+    path: "/:key",
     component: App,
   },
 ];
