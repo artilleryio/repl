@@ -1,0 +1,27 @@
+service: lambda-runner
+frameworkVersion: '2'
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  lambdaHashingVersion: 20201221
+  timeout: 20
+  versionFunctions: false
+  tracing:
+    lambda: true
+
+functions:
+  connectHandler:
+    handler: handler.connect
+    events:
+      - websocket: $connect
+  disconnectHandler:
+    handler: handler.disconnect      
+    events:
+      - websocket: $disconnect
+  wsRun:
+    handler: handler.wsRun
+    events:
+      # see route definition expressions here:
+      # https://docs.aws.amazon.com/apigateway/latest/developerguide/websocket-api-develop-routes.html
+      - websocket: $default
