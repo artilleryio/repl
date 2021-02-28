@@ -1,20 +1,7 @@
 <template>
   <div id="app">
         <div class="container mx-auto p-6">
-        <vue-tailwind-modal :showing="shareModalShowing" @close="shareModalShowing = false" :showClose="true" :backgroundClose="true">
-          <div class="flex flex-wrap content-around">
-            <div class="w-11/12">
-              <input id="scenarioUrl" type=text disabled=true class="w-full" :value="scenarioUrl" />
-            </div>
-            <div class="h-11 w-8 cursor-pointer">
-              <div class="mt-1 ml-1" v-on:click="copyUrl">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
-                </svg>
-              </div>
-            </div>
-          </div>
-        </vue-tailwind-modal>
+        <share-scenario :modalShowing="shareModalShowing" :scenarioUrl="scenarioUrl" :copyUrl="copyUrl" v-bind:showing.sync="shareModalShowing"></share-scenario>
 
         <h1 style="fontFamily: Martel" class="fg-gradient-purple-red text-4xl pb-3 tracking-tight font-extrabold sm:text-5xl md:text-5xl">
           API REPL

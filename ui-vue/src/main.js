@@ -1,6 +1,7 @@
 import Vue from "vue";
 import App from "./App.vue";
 import VueTailwindModal from "vue-tailwind-modal";
+import ShareScenario from "./components/ShareScenario.vue";
 
 import "./assets/styles/index.css";
 
@@ -10,11 +11,13 @@ Vue.config.productionTip = false;
 
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/vue-loading.css";
+
 Vue.use(Loading);
 
 import VueRouter from "vue-router";
 
 Vue.component("VueTailwindModal", VueTailwindModal);
+Vue.component("share-scenario", ShareScenario);
 Vue.use(VueRouter);
 
 const routes = [
