@@ -22,6 +22,6 @@ jobs:
         - run:
             name: Deploy dev
             command: |
-              npm i -g serverless
+              npm i serverless
               pushd lambda-runner
-              AWS_PROFILE=repl-deploy sls deploy
+              AWS_PROFILE=repl-deploy npm run deploy:dev
