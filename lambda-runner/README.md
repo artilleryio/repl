@@ -2,6 +2,13 @@
 
 Run an Artillery script as a functional test with `expectation` plugin. Inside a Lambda. With realtime streaming over WebSockets. 💥
 
+# UI endpoints
+
+HTTP endpoints used by the UI:
+
+- `POST /save`
+- `GET /get/:scenarioKey`
+
 ## Dependenciers
 
 - Serverless: `npm install -g serverless`

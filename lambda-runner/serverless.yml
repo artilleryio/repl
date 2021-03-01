@@ -9,6 +9,19 @@ provider:
   versionFunctions: false
   tracing:
     lambda: true
+  environment:
+    SCENARIOS_TABLE: scenarios
+    NO_UPDATE_NOTIFIER: true
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+          Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/*"
 
 functions:
   connectHandler:
@@ -16,7 +29,7 @@ functions:
     events:
       - websocket: $connect
   disconnectHandler:
-    handler: handler.disconnect      
+    handler: handler.disconnect
     events:
       - websocket: $disconnect
   wsRun:
@@ -25,3 +38,30 @@ functions:
       # see route definition expressions here:
       # https://docs.aws.amazon.com/apigateway/latest/developerguide/websocket-api-develop-routes.html
       - websocket: $default
+  saveScenario:
+    handler: handler.saveScenario
+    events:
+      - http:
+          path: save
+          method: post
+  getScenario:
+    handler: handler.getScenario
+    events:
+      - http:
+          path: /get/{key}
+          method: get
+
+resources:
+  Resources:
+    ScenariosTable:
+      Type: AWS::DynamoDB::Table
+      DeletionPolicy: Retain # Keeps around the DynamoDB resource when we redeploy/destroy
+      Properties:
+        TableName: ${self:provider.environment.SCENARIOS_TABLE}
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
