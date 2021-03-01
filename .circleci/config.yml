@@ -1,0 +1,27 @@
+version: 2.1
+orbs:
+  node: circleci/node@4.1.1
+  aws-cli: circleci/aws-cli@1.4.0
+workflows:
+  deploy-dev:
+    jobs:
+      - deploy-dev:
+          context: aws-repl-deploy
+jobs:
+    #
+    # Dev
+    #
+    deploy-dev:
+      docker:
+        - image: cimg/node:14.15.5
+      steps:
+        - checkout
+        - node/install-packages
+        - aws-cli/setup:
+            profile-name: repl-deploy
+        - run:
+            name: Deploy dev
+            command: |
+              npm i -g serverless
+              pushd lambda-runner
+              AWS_PROFILE=repl-deploy sls deploy
