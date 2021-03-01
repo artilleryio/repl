@@ -11,6 +11,7 @@ provider:
     lambda: true
   environment:
     SCENARIOS_TABLE: scenarios
+    NO_UPDATE_NOTIFIER: true
   iam:
     role:
       statements:

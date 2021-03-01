@@ -9,6 +9,7 @@ const atob = require("atob");
 const { writeFileSync } = require("fs");
 const childProcess = require("child_process");
 const Yaml = require("js-yaml");
+const uuid = require("uuid");
 
 module.exports.connect = async (event) => {
   return {
@@ -247,4 +248,3 @@ module.exports.getScenario = async (event) => {
     };
   }
 };
-
