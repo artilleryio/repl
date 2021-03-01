@@ -16,12 +16,11 @@ jobs:
         - image: cimg/node:14.15.5
       steps:
         - checkout
-        - node/install-packages
         - aws-cli/setup:
             profile-name: repl-deploy
         - run:
             name: Deploy dev
             command: |
-              npm i serverless
               pushd lambda-runner
+              npm install
               AWS_PROFILE=repl-deploy npm run deploy:dev
