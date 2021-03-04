@@ -1,10 +1,5 @@
 # Artillery REPL
 
-### Setup
+Monorepo with all things REPL.
 
-```
-$ npm install
-$ npm start
-```
-
-The app will run on [http://localhost:9001](http://localhost:9001)
+Refer to individual README in each sub-project for instructions.
