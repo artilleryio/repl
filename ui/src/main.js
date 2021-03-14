@@ -1,32 +1,21 @@
 import Vue from 'vue';
 import App from './App.vue';
 import VueTailwindModal from 'vue-tailwind-modal';
-import ShareScenario from './components/ShareScenario.vue';
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
 
+import ShareScenario from './components/ShareScenario.vue';
 import './assets/styles/index.css';
+import router from './router';
 
 const { sortBy } = require('lodash');
 
 Vue.config.productionTip = false;
 
-import Loading from 'vue-loading-overlay';
-import 'vue-loading-overlay/dist/vue-loading.css';
-
 Vue.use(Loading);
-
-import VueRouter from 'vue-router';
 
 Vue.component('VueTailwindModal', VueTailwindModal);
 Vue.component('share-scenario', ShareScenario);
-Vue.use(VueRouter);
-
-const routes = [
-  {
-    path: '/:key',
-    component: App,
-  },
-];
-const router = new VueRouter({ routes });
 
 const app = new Vue({
   router,
