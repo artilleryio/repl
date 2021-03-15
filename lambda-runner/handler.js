@@ -11,6 +11,11 @@ const uuid = require('uuid');
 
 let scheduled = 0;
 
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Credentials': true,
+};
+
 module.exports.connect = async () => {
   return {
     statusCode: 200,
@@ -188,6 +193,7 @@ module.exports.saveScenario = async (event) => {
 
     return {
       statusCode: 200,
+      headers: corsHeaders,
       body: JSON.stringify({
         key: data.id,
       }),
@@ -197,6 +203,7 @@ module.exports.saveScenario = async (event) => {
 
     return {
       statusCode: 500,
+      headers: corsHeaders,
       body: JSON.stringify({
         err,
       }),
@@ -210,6 +217,7 @@ module.exports.getScenario = async (event) => {
 
     if (!key) {
       return {
+        headers: corsHeaders,
         statusCode: 400,
       };
     }
@@ -227,12 +235,14 @@ module.exports.getScenario = async (event) => {
 
     if (!item) {
       return {
+        headers: corsHeaders,
         statusCode: 404,
       };
     }
 
     return {
       statusCode: 200,
+      headers: corsHeaders,
       body: JSON.stringify(item),
     };
   } catch (err) {
@@ -240,6 +250,7 @@ module.exports.getScenario = async (event) => {
 
     return {
       statusCode: 500,
+      headers: corsHeaders,
       body: JSON.stringify({
         err,
       }),
