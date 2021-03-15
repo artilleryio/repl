@@ -4,6 +4,8 @@ import VueTailwindModal from 'vue-tailwind-modal';
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
 
+import VueMeta from 'vue-meta'
+
 import ShareScenario from './components/ShareScenario.vue';
 import './assets/styles/index.css';
 import router from './router';
@@ -13,11 +15,15 @@ const { sortBy } = require('lodash');
 Vue.config.productionTip = false;
 
 Vue.use(Loading);
+Vue.use(VueMeta);
 
 Vue.component('VueTailwindModal', VueTailwindModal);
 Vue.component('share-scenario', ShareScenario);
 
 const app = new Vue({
+  metaInfo: {
+    title: 'SuperREPL ⚡'
+  },
   router,
   render: h => h(App),
 }).$mount('#app');
