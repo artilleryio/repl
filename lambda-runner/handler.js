@@ -95,6 +95,8 @@ const runArtillery = (script, opts, events) => {
       ].concat(args),
       {
         env: {
+          PATH: process.env.PATH,
+          NODE_PATH: process.env.NODE_PATH,
           NO_UPDATE_NOTIFIER: true,
           LANG: process.env.LANG,
           TZ: process.env.TZ
