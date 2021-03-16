@@ -19,6 +19,9 @@ jobs:
         - aws-cli/setup:
             profile-name: repl-deploy
         - run:
+            name: install netlify cli
+            command: sudo npm install netlify-cli -g
+        - run:
             name: Deploy dev
             command: |
               pushd lambda-runner
