@@ -19,9 +19,6 @@ jobs:
         - aws-cli/setup:
             profile-name: repl-deploy
         - run:
-            name: install netlify cli
-            command: sudo npm install netlify-cli -g
-        - run:
             name: Deploy dev
             command: |
               pushd lambda-runner
@@ -34,4 +31,5 @@ jobs:
               echo "VUE_APP_WS_ENDPOINT=$(echo $URLS | awk -F " " '{ print $2 }')" >> .env
               yarn install
               yarn build
-              netlify deploy --prod --auth $NETLIFY_AUTH_TOKEN --site f9516a60-5190-4b42-b14b-9c0cc2eb8de5 --dir dist
+              yarn add netlify-cli
+              ./node_modules/.bin/netlify deploy --prod --auth $NETLIFY_AUTH_TOKEN --site f9516a60-5190-4b42-b14b-9c0cc2eb8de5 --dir dist
