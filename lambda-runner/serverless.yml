@@ -44,12 +44,14 @@ functions:
       - http:
           path: save
           method: post
+          cors: true
   getScenario:
     handler: handler.getScenario
     events:
       - http:
           path: /get/{key}
           method: get
+          cors: true
 
 resources:
   Resources:

@@ -29,8 +29,7 @@ const app = new Vue({
 }).$mount('#app');
 
 const spinner = app.$loading.show();
-let ENDPOINT = '';
-let ws = new WebSocket(ENDPOINT);
+const ws = new WebSocket(process.env.VUE_APP_WS_ENDPOINT);
 window.ws = ws;
 
 // TODO: Handle reconnect
