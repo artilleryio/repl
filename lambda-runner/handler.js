@@ -93,7 +93,13 @@ const runArtillery = (script, opts, events) => {
       [
         path.join(__dirname, 'node_modules', 'artillery', 'bin', 'artillery'),
       ].concat(args),
-      {},
+      {
+        env: {
+          NO_UPDATE_NOTIFIER: true,
+          LANG: process.env.LANG,
+          TZ: process.env.TZ
+        }
+      },
     );
 
     child.on('close', (code) => {
