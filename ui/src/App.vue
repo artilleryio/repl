@@ -4,20 +4,20 @@
         <share-scenario :modalShowing="shareModalShowing" :scenarioUrl="scenarioUrl" :copyUrl="copyUrl" v-bind:showing.sync="shareModalShowing"></share-scenario>
 
         <h1 style="fontFamily: Martel" class="fg-gradient-purple-red text-4xl pb-3 tracking-tight font-extrabold sm:text-5xl md:text-5xl">
-          API REPL
+          SuperREPL
         </h1>
 
         <p class="text-s pb-6">
-          This is a universal API REPL. Send requests, see responses, and explore any public API. <a href="" class="underline" v-on:click="toggleLearnMore">Learn more &darr;</a>
+          SuperREPL is a universal API REPL, powered by <a href="https://artillery.io">Artillery</a>. Send requests, see responses, and explore any public API. <a href="" class="underline" v-on:click="toggleLearnMore">Learn more &darr;</a>
         </p>
 
         <div class="text-xs" v-if="learnMore">
-          You've probably used something like Postman, HTTPie, or curl to interact with HTTP APIs before. This is similar, but also different:
+          You've probably used something like Postman, HTTPie, or curl to interact with HTTP APIs before. This is similar, but with a few important differences.
 
           <div class="px-9 py-3">
             <ul style="listStyleType:disc">
-              <li>It's code-first - for those who prefer code over elaborate UIs</li>
-              <li>You can build <em>scenarios</em> rather than just send a single request at a time</li>
+              <li>Code-first, for developers who prefer writing code to clicking around in a UI</li>
+              <li>Send one request at a time, or create whole <strong>scenarios</strong> with multiple dependent steps and assertions</li>
               <li>Not just HTTP - try the WebSocket or Socket.io examples</li>
               <li>Scenarios you write here can be used for load testing and synthetic monitoring with Artillery</li>
               <li>Powered by <a href="https://artillery.io">Artillery</a> ⚡ and packed with features; see <a href="https://artillery.io/docs" class="underline">the docs</a></li>
@@ -51,12 +51,12 @@
       </div>
 
       <div>
-        <button 
+        <button
           class="inline-flex mr-6 mt-3 items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
           v-on:click="run">⚡ Run scenario
         </button>
 
-        <button 
+        <button
           class="inline-flex mr-6 mt-3 items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
           v-on:click="share"> Share
         </button>
@@ -81,7 +81,7 @@
     </div> <!-- container -->
   </div>
 </template>
- 
+
 <script>
 import { codemirror } from 'vue-codemirror'
 import 'codemirror/lib/codemirror.css'
@@ -100,10 +100,8 @@ function run () {
 
 const defaultContents = `# Write your scenario here and press Run to run it!
 config:
-  target: "https://artillery.io" # this the endpoint we want to interact with
-  phases:
-    - duration: 10
-      arrivalRate: 1
+  # Replace this with your API's base URL:
+  target: "https://superrepl.com"
 scenarios:
   - flow:
       - get:
@@ -111,9 +109,10 @@ scenarios:
           expect:
             statusCode: 200
       - get:
-          url: "/docs"
+          url: "/dinosaurs"
           expect:
-            statusCode: 200
+            # no dinosaurs expected
+            statusCode: 404
 `;
 console.log(defaultContents);
 
