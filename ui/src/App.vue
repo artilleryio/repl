@@ -118,7 +118,7 @@ console.log(defaultContents);
 
 const POST_ENDPOINT = `${process.env.VUE_APP_HTTP_BASE_URL}/save`
 const GET_ENDPOINT = `${process.env.VUE_APP_HTTP_BASE_URL}/get`
-const BASE_DOMAIN = `${process.env.BASE_DOMAIN}`
+const BASE_DOMAIN = `${process.env.VUE_APP_BASE_DOMAIN}`
 
 function base64encode(str) {
   let encode = encodeURIComponent(str).replace(/%([a-f0-9]{2})/gi, (m, $1) => String.fromCharCode(parseInt($1, 16)))
