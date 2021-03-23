@@ -29,6 +29,7 @@ jobs:
               pushd ui
               echo "VUE_APP_HTTP_BASE_URL=$(echo $URLS | awk -F " " '{ print $1 }')" >> .env
               echo "VUE_APP_WS_ENDPOINT=$(echo $URLS | awk -F " " '{ print $2 }')" >> .env
+              echo "BASE_DOMAIN=superrepl.com" >> .env
               yarn install
               yarn build
               yarn add netlify-cli
