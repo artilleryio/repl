@@ -2,7 +2,10 @@ import Head from 'next/head';
 import { getLayout } from '../components/layouts/DefaultLayout';
 import HeadingBar from '../components/core/HeadingBar';
 import ButtonsBar from '../components/ui/ButtonsBar';
-import Repl from '../components/core/Repl';
+// import Repl from '../components/'
+import dynamic from 'next/dynamic';
+
+const Repl = dynamic(() => import('../components/core/Repl'), { ssr: false });
 
 const Home = (props) => {
   return (
