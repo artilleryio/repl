@@ -1,30 +1,42 @@
+import React from "react";
+import AceEditor from "react-ace";
+
+import "ace-builds/src-noconflict/mode-yaml";
+import "ace-builds/src-noconflict/theme-nord_dark";
+
 const defaultContents = `# Write your scenario here and press Run to run it!
 config:
   # Replace this with your API's base URL:
   target: "https://superrepl.com"
 scenarios:
   - flow:
-      - get:
-          url: "/"
-          expect:
-            statusCode: 200
-      - get:
-          url: "/dinosaurs"
-          expect:
-            # no dinosaurs expected
-            statusCode: 404
+    - get:
+        url: "/"
+        expect:
+          statusCode: 200
+    - get:
+        url: "/dinosaurs"
+        expect:
+          # no dinosaurs expected
+          statusCode: 404
 `;
 
-const Editor = () => {
-  const options = {
-    tabSize: 4,
-    mode: 'text/yaml',
-    theme: 'base16-dark',
-    lineNumbers: true,
-    line: true,
-  };
+function onChange(newValue) {
+  console.log("change", newValue);
+}
 
-  return <div></div>;
+const Editor = () => {
+  return (<AceEditor
+    mode="yaml"
+    theme="nord_dark"
+    onChange={onChange}
+    width="100%"
+    name="editor"
+    tabSize={2}
+    fontSize={16}
+    value={defaultContents}
+    editorProps={{ $blockScrolling: false }}
+  />)
 };
 
 export default Editor;
