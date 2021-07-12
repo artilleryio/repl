@@ -10,13 +10,13 @@ const Editor = dynamic(
 
 const Home = (props) => {
   return (
-    <div>
+    <div className="overflow-scroll">
       <Head>
         <title>SuperREPL ⚡</title>
       </Head>
 
       <HeadingBar heading={props.heading} />
-      <div className="app-content py-4 px-12 overflow-scroll">
+      <div className="app-content py-4 px-12">
         <div className="grid grid-cols-2 gap-4">
           <div className="border-solid border-4 border-light-blue-500">
             <Editor></Editor>

@@ -2,7 +2,7 @@ import React from "react";
 import AceEditor from "react-ace";
 
 import "ace-builds/src-noconflict/mode-yaml";
-import "ace-builds/src-noconflict/theme-nord_dark";
+import "ace-builds/src-noconflict/theme-twilight";
 
 const defaultContents = `# Write your scenario here and press Run to run it!
 config:
@@ -28,12 +28,12 @@ function onChange(newValue) {
 const Editor = () => {
   return (<AceEditor
     mode="yaml"
-    theme="nord_dark"
+    theme="twilight"
     onChange={onChange}
     width="100%"
     name="editor"
     tabSize={2}
-    fontSize={16}
+    fontSize={14}
     value={defaultContents}
     editorProps={{ $blockScrolling: false }}
   />)

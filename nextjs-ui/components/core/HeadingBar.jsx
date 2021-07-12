@@ -8,7 +8,7 @@ const HeadingBar = ({ heading }) => {
   const toggle = () => setToggleLearnMore(!toggleLearnMore)
 
   return (
-    <div className="app-heading-bar flex justify-between pt-9 px-12">
+    <div className="app-heading-bar flex justify-between pt-6 px-12">
       <div className="my-2">
         <h1 className="fg-gradient-purple-red text-4xl pb-3 tracking-tight font-extrabold sm:text-5xl md:text-5xl font-display truncate">
           {heading}
