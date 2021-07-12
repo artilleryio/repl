@@ -1,12 +1,12 @@
 import Head from 'next/head';
-import dynamic from 'next/dynamic'
+import dynamic from 'next/dynamic';
 import { getLayout } from '../components/layouts/DefaultLayout';
 import HeadingBar from '../components/core/HeadingBar';
+import ButtonsBar from '../components/ui/ButtonsBar';
 
-const Editor = dynamic(
-  () => import('../components/core/Editor'),
-  { ssr: false }
-)
+const Editor = dynamic(() => import('../components/core/Editor'), {
+  ssr: false,
+});
 
 const Home = (props) => {
   return (
@@ -26,6 +26,10 @@ const Home = (props) => {
             <div id="results">Results</div>
           </div>
         </div>
+
+        <ButtonsBar />
+
+        <hr className="mt-12 mb-3" />
       </div>
     </div>
   );
