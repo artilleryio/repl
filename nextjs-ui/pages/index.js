@@ -1,13 +1,9 @@
 import Head from 'next/head';
 import { getLayout } from '../components/layouts/DefaultLayout';
 import HeadingBar from '../components/core/HeadingBar';
-// import { useState } from 'react';
-import { useAppContext } from '../src/context/state';
+import Editor from '../components/core/Editor';
 
 const Home = (props) => {
-  // const state = useAppContext();
-  // const [ url, setUrl ] = useState(state.avatarUrl);
-
   return (
     <div>
       <Head>
@@ -16,21 +12,29 @@ const Home = (props) => {
 
       <HeadingBar heading={props.heading} />
       <div className="app-content py-4 px-12">
-        Default page
+        <div className="grid grid-cols-2 gap-4">
+          <div className="border-solid border-4 border-light-blue-500">
+            <Editor></Editor>
+          </div>
+
+          <div className="border-solid border-4 border-light-blue-500">
+            <div id="results">Results</div>
+          </div>
+        </div>
       </div>
-
     </div>
-  )
-}
+  );
+};
 
-export async function getStaticProps () {
+export async function getStaticProps() {
   return {
     props: {
-      heading: "SuperREPL"
-    }
+      heading: 'SuperREPL',
+    },
   };
-};
+}
 
 Home.getLayout = getLayout;
 
 export default Home;
+
