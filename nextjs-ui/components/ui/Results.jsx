@@ -1,10 +1,12 @@
+import React from 'react';
+
 const Results = ({ items = [] }) => {
   return (
-    <div id="results" style={{ height: '50vh' }}>
-      {items.map((item) => (
-        <>
+    <div style={{ height: '50vh' }}>
+      {items.map((item, key) => (
+        <React.Fragment key={key}>
           <pre>{item.data}</pre>
-        </>
+        </React.Fragment>
       ))}
     </div>
   );

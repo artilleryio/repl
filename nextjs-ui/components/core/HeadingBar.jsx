@@ -13,7 +13,7 @@ const HeadingBar = ({ heading }) => {
         <h1 className="fg-gradient-purple-red text-4xl pb-3 tracking-tight font-extrabold sm:text-5xl md:text-5xl font-display truncate">
           {heading}
         </h1>
-        <p className="text-s pt-3 pb-6">
+        <p className="text-s pt-3 pb-3">
           SuperREPL is a universal API REPL, powered by <Link href="https://artillery.io">Artillery</Link>.
           Send requests, see responses, and explore any public API. <span className="cursor-pointer underline" onClick={toggle}>Learn more &darr; </span>
         </p>
