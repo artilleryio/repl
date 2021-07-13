@@ -49,20 +49,24 @@ const saveScenario = async (code, items) => {
       }),
     });
 
-    console.log('response', response);
     if (response.ok) {
       const { key } = await response.json();
 
       console.log(`response key`, key);
       return `https://${BASE_DOMAIN}/#/${key}`;
-      // this.shareModalShowing = true;
     }
   } catch (err) {
     console.log(err);
   }
 };
 
-const copyToClipBoard = async () => {}
+const copyToClipBoard = async (value) => {
+  if (navigator.clipboard) {
+    await navigator.clipboard.writeText(value);
+  } else {
+    console.log('cannot copy to clipboard');
+  }
+};
 
 const MainContent = () => {
   const [scenarioValue, setScenario] = useState(defaultContents);
@@ -141,7 +145,7 @@ const MainContent = () => {
       <ShareModal
         show={shareModalVisible}
         onClose={() => showShareModal(false)}
-        onCopy={copyToClipBoard}
+        onCopy={() => copyToClipBoard(shareUrl)}
         shareUrl={shareUrl}
       />
 
