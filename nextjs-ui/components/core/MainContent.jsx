@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import sortBy from 'lodash.sortby';
 
 import ButtonsBar from '../ui/ButtonsBar';
+import ShareModal from '../ui/ShareModal';
 import Repl from './Repl';
 
 const ENDPOINT = 'wss://7iuux5aza6.execute-api.us-east-1.amazonaws.com/dev';
@@ -27,6 +28,7 @@ const MainContent = () => {
   const [scenarioValue, setScenario] = useState(defaultContents);
   const [resultItems, setResultItems] = useState([]);
   const [runButton, disableRunButton] = useState(false);
+  const [shareModalVisible, showShareModal] = useState(false);
 
   const ws = useRef(null);
 
@@ -66,6 +68,7 @@ const MainContent = () => {
 
   const run = () => {
     disableRunButton(true);
+
     // TODO: Reconnect if needed - ensure we're connected first
     if (resultItems.length > 0) {
       setResultItems([]);
@@ -80,6 +83,10 @@ const MainContent = () => {
     setScenario(newValue);
   };
 
+  const share = () => {
+    showShareModal(true);
+  };
+
   return (
     <div className="app-content py-4 px-12">
       <Repl
@@ -88,7 +95,13 @@ const MainContent = () => {
         onChange={onEditorChange}
       />
 
-      <ButtonsBar runScenario={run} runDisabled={runButton} />
+      <ShareModal show={shareModalVisible} onClose={() => showShareModal(false)}/>
+
+      <ButtonsBar
+        runScenario={run}
+        runDisabled={runButton}
+        shareScenario={share}
+      />
 
       <hr className="mt-12 mb-3" />
     </div>

@@ -1,10 +1,10 @@
-const ButtonsBar = ({ runScenario, runDisabled = false }) => {
+const ButtonsBar = ({ runScenario, runDisabled = false, shareScenario }) => {
   return (
     <div>
-      <button disabled={runDisabled} onClick={() => runScenario() }className="inline-flex mr-6 mt-3 items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:opacity-50">
+      <button disabled={runDisabled} onClick={() => runScenario() } className="inline-flex mr-6 mt-3 items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:opacity-50">
         ⚡ Run scenario
       </button>
-      <button className="inline-flex mr-6 mt-3 items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+      <button className="inline-flex mr-6 mt-3 items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500" onClick={() => shareScenario() }>
         Share
       </button>
       <label htmlFor="examples" className="font-bold font-medium">
