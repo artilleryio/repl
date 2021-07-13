@@ -5,7 +5,13 @@ import ButtonsBar from '../ui/ButtonsBar';
 import ShareModal from '../ui/ShareModal';
 import Repl from './Repl';
 
-const ENDPOINT = 'wss://7iuux5aza6.execute-api.us-east-1.amazonaws.com/dev';
+import { base64encode } from '../../src/utils';
+
+const BASE_URL = '';
+const WS_ENDPOINT = '';
+const POST_ENDPOINT = `${BASE_URL}/save`;
+const GET_ENDPOINT = `${BASE_URL}/get`;
+const BASE_DOMAIN = 'superrepl.com';
 
 const defaultContents = `# Write your scenario here and press Run to run it!
 config:
@@ -24,11 +30,46 @@ scenarios:
           statusCode: 404
 `;
 
+const saveScenario = async (code, items) => {
+  try {
+    const scenario = btoa(code);
+    const output = items.reduce((s, item) => {
+      if (item.data) {
+        return `${s}${item.data}`;
+      }
+
+      return s;
+    }, '');
+
+    const response = await fetch(POST_ENDPOINT, {
+      method: 'POST',
+      body: JSON.stringify({
+        scenario,
+        output: base64encode(output),
+      }),
+    });
+
+    console.log('response', response);
+    if (response.ok) {
+      const { key } = await response.json();
+
+      console.log(`response key`, key);
+      return `https://${BASE_DOMAIN}/#/${key}`;
+      // this.shareModalShowing = true;
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const copyToClipBoard = async () => {}
+
 const MainContent = () => {
   const [scenarioValue, setScenario] = useState(defaultContents);
   const [resultItems, setResultItems] = useState([]);
   const [runButton, disableRunButton] = useState(false);
   const [shareModalVisible, showShareModal] = useState(false);
+  const [shareUrl, setShareUrl] = useState('');
 
   const ws = useRef(null);
 
@@ -37,7 +78,7 @@ const MainContent = () => {
       return;
     }
 
-    ws.current = new WebSocket(ENDPOINT);
+    ws.current = new WebSocket(WS_ENDPOINT);
 
     ws.current.onopen = () => {
       console.log('WS open');
@@ -58,7 +99,6 @@ const MainContent = () => {
           sortBy([...current, eventData], (x) => x.ts),
         );
       } else if (eventData.event === 'done') {
-        // TODO: Re-enable Run button
         console.log('Run done');
 
         disableRunButton(false);
@@ -83,7 +123,10 @@ const MainContent = () => {
     setScenario(newValue);
   };
 
-  const share = () => {
+  const share = async () => {
+    const scenarioUrl = await saveScenario(scenarioValue, resultItems);
+
+    setShareUrl(scenarioUrl);
     showShareModal(true);
   };
 
@@ -95,7 +138,12 @@ const MainContent = () => {
         onChange={onEditorChange}
       />
 
-      <ShareModal show={shareModalVisible} onClose={() => showShareModal(false)}/>
+      <ShareModal
+        show={shareModalVisible}
+        onClose={() => showShareModal(false)}
+        onCopy={copyToClipBoard}
+        shareUrl={shareUrl}
+      />
 
       <ButtonsBar
         runScenario={run}

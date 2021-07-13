@@ -1,8 +1,7 @@
 import { Fragment, useRef } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
-// import { ExclamationIcon } from '@heroicons/react/outline';
 
-export default function ShareModal({ show, onClose, onCopy }) {
+export default function ShareModal({ show, onClose, onCopy, shareUrl }) {
   const cancelButtonRef = useRef(null);
 
   if (!show) return '';
@@ -49,7 +48,7 @@ export default function ShareModal({ show, onClose, onCopy }) {
             <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
               <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                 <div className="sm:flex sm:items-start">
-                  <input id="scenarioUrl" type="text" disabled={true} className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-full" />
+                  <input id="scenarioUrl" type="text" disabled={true} className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-full" value={shareUrl} />
                 </div>
               </div>
               <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
