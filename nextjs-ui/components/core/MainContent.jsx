@@ -13,7 +13,7 @@ import {
   getScenario,
 } from '../../src/utils';
 
-const WS_ENDPOINT = '';
+const WS_ENDPOINT = process.env.UI_WS_ENDPOINT;
 
 const defaultContents = `# Write your scenario here and press Run to run it!
 config:

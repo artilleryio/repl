@@ -27,9 +27,9 @@ jobs:
               URLS=$(./node_modules/.bin/serverless info --verbose | grep ServiceEndpoint | sed s/ServiceEndpoint\.\*\:\ //g)
               popd
               pushd ui
-              echo "VUE_APP_HTTP_BASE_URL=$(echo $URLS | awk -F " " '{ print $1 }')" >> .env
-              echo "VUE_APP_WS_ENDPOINT=$(echo $URLS | awk -F " " '{ print $2 }')" >> .env
-              echo "VUE_APP_BASE_DOMAIN=superrepl.com" >> .env
+              echo "UI_HTTP_BASE_URL=$(echo $URLS | awk -F " " '{ print $1 }')" >> .env
+              echo "UI_WS_ENDPOINT=$(echo $URLS | awk -F " " '{ print $2 }')" >> .env
+              echo "UI_BASE_DOMAIN=superrepl.com" >> .env
               yarn install
               yarn build
               yarn add netlify-cli
