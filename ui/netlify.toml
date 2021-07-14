@@ -13,7 +13,7 @@
   publish = "ui/"
 
   # Default build command.
-  command = "npm run build"
+  command = "npm run export"
 
 [[plugins]]
   # Installs the Lighthouse Build Plugin for all deploy contexts
