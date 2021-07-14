@@ -12,7 +12,7 @@ const Repl = ({ items, onChange, code }) => {
         <Editor onChange={onChange} value={code}></Editor>
       </div>
 
-      <div className="border-solid border-4 border-light-blue-500">
+      <div className="border-solid border-4 border-light-blue-500 overflow-auto">
         <Results items={items} />
       </div>
     </div>
