@@ -3,7 +3,7 @@ const POST_ENDPOINT = `${BASE_URL}/save`;
 const GET_ENDPOINT = `${BASE_URL}/get`;
 const BASE_DOMAIN = 'superrepl.com';
 
-export const base64encode = (str) => {
+export const base64encode = (str = '') => {
   let encode = encodeURIComponent(str).replace(/%([a-f0-9]{2})/gi, (m, $1) =>
     String.fromCharCode(parseInt($1, 16)),
   );
@@ -11,7 +11,7 @@ export const base64encode = (str) => {
   return btoa(encode);
 };
 
-export const base64decode = (str) => {
+export const base64decode = (str = '') => {
   let decode = atob(str).replace(
     /[\x80-\uffff]/g,
     (m) => `%${m.charCodeAt(0).toString(16).padStart(2, '0')}`,
@@ -52,9 +52,34 @@ export const saveScenario = async (code, items) => {
 
       console.log(`response key`, key);
 
-      return `https://${BASE_DOMAIN}/#/${key}`;
+      return `https://${BASE_DOMAIN}/?s=${key}`;
     }
   } catch (err) {
     console.log('saveScenario error', err);
   }
+};
+
+export const getScenario = async (key) => {
+  if (!key) {
+    return;
+  }
+
+  const response = await fetch(`${GET_ENDPOINT}/${key}`);
+  const data = await response.json();
+
+  return {
+    scenario: base64decode(data.scenario),
+    output: base64decode(data.output),
+  };
+};
+
+export const getScenarioKey = (query = {}, path = '') => {
+  if (query.s) {
+    return query.s;
+  }
+
+  // backward compatible with the format /#/key
+  const [, , key] = path.split('/');
+
+  return key;
 };

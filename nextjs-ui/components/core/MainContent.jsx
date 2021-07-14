@@ -1,11 +1,17 @@
 import { useState, useRef, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import sortBy from 'lodash.sortby';
 
 import ButtonsBar from '../ui/ButtonsBar';
 import ShareModal from '../ui/ShareModal';
 import Repl from './Repl';
 
-import { saveScenario, copyToClipBoard } from '../../src/utils';
+import {
+  saveScenario,
+  copyToClipBoard,
+  getScenarioKey,
+  getScenario,
+} from '../../src/utils';
 
 const WS_ENDPOINT = '';
 
@@ -34,6 +40,8 @@ const MainContent = () => {
   const [shareUrl, setShareUrl] = useState('');
 
   const ws = useRef(null);
+
+  const router = useRouter();
 
   useEffect(() => {
     if (ws.current && ws.current.readyState === 1) {
@@ -72,6 +80,23 @@ const MainContent = () => {
       }
     };
   }, []);
+
+  useEffect(() => {
+    const loadScenario = async () => {
+      const scenarioKey = getScenarioKey(router.query, router.asPath);
+
+      if (scenarioKey) {
+        const { scenario, output } = await getScenario(scenarioKey);
+
+        if (scenario && output) {
+          setScenario(scenario);
+          setResultItems([{ data: output }]);
+        }
+      }
+    };
+
+    loadScenario();
+  }, [router.query, router.asPath]);
 
   const run = () => {
     disableRunButton(true);
