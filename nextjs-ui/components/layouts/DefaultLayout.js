@@ -2,7 +2,7 @@
 // import Sidebar from '../core/Sidebar';
 
 const DefaultLayout = ({ children, ...pageProps }) => (
-  <div className="flex h-screen overflow-hidden">
+  <div className="flex h-screen overflow-auto">
     <main className="app-main">{children}</main>
   </div>
 );

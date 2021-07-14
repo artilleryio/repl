@@ -7,7 +7,7 @@ const MainContent = dynamic(() => import('../components/core/MainContent'), { ss
 
 const Home = (props) => {
   return (
-    <div className="overflow-auto">
+    <div>
       <Head>
         <title>SuperREPL ⚡</title>
       </Head>

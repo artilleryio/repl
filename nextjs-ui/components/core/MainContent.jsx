@@ -89,6 +89,11 @@ const MainContent = () => {
       console.log(ws.current);
     };
 
+    ws.current.onerror = () => {
+      console.log('WS error');
+      console.log(ws.current);
+    };
+
     ws.current.onclose = () => console.log('closing websocket');
   });
 
