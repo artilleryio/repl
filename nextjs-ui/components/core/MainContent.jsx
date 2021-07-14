@@ -5,13 +5,9 @@ import ButtonsBar from '../ui/ButtonsBar';
 import ShareModal from '../ui/ShareModal';
 import Repl from './Repl';
 
-import { base64encode } from '../../src/utils';
+import { saveScenario, copyToClipBoard } from '../../src/utils';
 
-const BASE_URL = '';
 const WS_ENDPOINT = '';
-const POST_ENDPOINT = `${BASE_URL}/save`;
-const GET_ENDPOINT = `${BASE_URL}/get`;
-const BASE_DOMAIN = 'superrepl.com';
 
 const defaultContents = `# Write your scenario here and press Run to run it!
 config:
@@ -29,44 +25,6 @@ scenarios:
           # no dinosaurs expected
           statusCode: 404
 `;
-
-const saveScenario = async (code, items) => {
-  try {
-    const scenario = btoa(code);
-    const output = items.reduce((s, item) => {
-      if (item.data) {
-        return `${s}${item.data}`;
-      }
-
-      return s;
-    }, '');
-
-    const response = await fetch(POST_ENDPOINT, {
-      method: 'POST',
-      body: JSON.stringify({
-        scenario,
-        output: base64encode(output),
-      }),
-    });
-
-    if (response.ok) {
-      const { key } = await response.json();
-
-      console.log(`response key`, key);
-      return `https://${BASE_DOMAIN}/#/${key}`;
-    }
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-const copyToClipBoard = async (value) => {
-  if (navigator.clipboard) {
-    await navigator.clipboard.writeText(value);
-  } else {
-    console.log('cannot copy to clipboard');
-  }
-};
 
 const MainContent = () => {
   const [scenarioValue, setScenario] = useState(defaultContents);
@@ -133,6 +91,12 @@ const MainContent = () => {
   };
 
   const share = async () => {
+    if (resultItems.length === 0) {
+      console.log('no results to share');
+
+      return;
+    }
+
     const scenarioUrl = await saveScenario(scenarioValue, resultItems);
 
     setShareUrl(scenarioUrl);
