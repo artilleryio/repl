@@ -1,6 +1,6 @@
-const POST_ENDPOINT = `${process.env.UI_HTTP_BASE_URL}/save`;
-const GET_ENDPOINT = `${process.env.UI_HTTP_BASE_URL}/get`;
-const BASE_DOMAIN = process.env.UI_BASE_DOMAIN; //'superrepl.com';
+const POST_ENDPOINT = `${process.env.NEXT_PUBLIC_UI_HTTP_BASE_URL}/save`;
+const GET_ENDPOINT = `${process.env.NEXT_PUBLIC_UI_HTTP_BASE_URL}/get`;
+const BASE_DOMAIN = process.env.NEXT_PUBLIC_UI_BASE_DOMAIN; //'superrepl.com';
 
 export const base64encode = (str = '') => {
   let encode = encodeURIComponent(str).replace(/%([a-f0-9]{2})/gi, (m, $1) =>
