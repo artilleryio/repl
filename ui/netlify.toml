@@ -30,3 +30,8 @@
 # inherit these settings.
 [context.deploy-preview]
   publish = "out"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+      Access-Control-Allow-Origin = "*"
