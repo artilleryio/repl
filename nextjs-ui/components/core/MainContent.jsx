@@ -43,8 +43,24 @@ const MainContent = () => {
 
   const router = useRouter();
 
-  useEffect(() => {
-    if (ws.current && ws.current.readyState === 1) {
+  const initWsConnection = () => {
+    if (ws.current && ws.current.readyState === 1 && !ws.current.onmessage) {
+      ws.current.onmessage = function (event) {
+        const eventData = JSON.parse(event.data);
+
+        if (eventData.event === 'output') {
+          setResultItems((current) =>
+            sortBy([...current, eventData], (x) => x.ts),
+          );
+        } else if (eventData.event === 'done') {
+          console.log('Run done');
+
+          disableRunButton(false);
+        }
+      };
+    }
+
+    if (ws.current && ws.current.readyState <= 1) {
       return;
     }
 
@@ -52,34 +68,24 @@ const MainContent = () => {
 
     ws.current.onopen = () => {
       console.log('WS open');
+
       console.log(ws.current);
     };
 
-    ws.current.onerror = () => {
-      console.log('WS error');
-      console.log(ws.current);
+    ws.current.onerror = (err) => {
+      console.log('WS error', err);
     };
 
-    ws.current.onclose = () => console.log('closing websocket');
-  });
+    ws.current.onclose = () => {
+      console.log('closing websocket')
+
+      initWsConnection();
+    };
+  };
 
   useEffect(() => {
-    if (ws.current && ws.current.onmessage) return;
-
-    ws.current.onmessage = function (event) {
-      const eventData = JSON.parse(event.data);
-
-      if (eventData.event === 'output') {
-        setResultItems((current) =>
-          sortBy([...current, eventData], (x) => x.ts),
-        );
-      } else if (eventData.event === 'done') {
-        console.log('Run done');
-
-        disableRunButton(false);
-      }
-    };
-  }, []);
+    initWsConnection();
+  });
 
   useEffect(() => {
     const loadScenario = async () => {
