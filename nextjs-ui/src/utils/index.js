@@ -20,6 +20,8 @@ export const base64decode = (str = '') => {
   return decodeURIComponent(decode);
 };
 
+export const getScenarioUrl = (key) => `https://${BASE_DOMAIN}/?s=${key}`
+
 export const copyToClipBoard = async (value) => {
   if (navigator.clipboard) {
     await navigator.clipboard.writeText(value);
@@ -52,7 +54,7 @@ export const saveScenario = async (code, items) => {
 
       console.log(`response key`, key);
 
-      return `https://${BASE_DOMAIN}/?s=${key}`;
+      return getScenarioUrl(key);
     }
   } catch (err) {
     console.log('saveScenario error', err);
@@ -70,6 +72,7 @@ export const getScenario = async (key) => {
   return {
     scenario: base64decode(data.scenario),
     output: base64decode(data.output),
+    url: getScenarioUrl(key)
   };
 };
 

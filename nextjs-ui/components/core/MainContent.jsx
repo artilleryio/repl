@@ -38,6 +38,7 @@ const MainContent = () => {
   const [runButton, disableRunButton] = useState(false);
   const [shareModalVisible, showShareModal] = useState(false);
   const [shareUrl, setShareUrl] = useState('');
+  const [sharedValues, setSharedValues] = useState({});
 
   const ws = useRef(null);
 
@@ -77,7 +78,7 @@ const MainContent = () => {
     };
 
     ws.current.onclose = () => {
-      console.log('closing websocket')
+      console.log('closing websocket');
 
       initWsConnection();
     };
@@ -91,13 +92,21 @@ const MainContent = () => {
     const loadScenario = async () => {
       const scenarioKey = getScenarioKey(router.query, router.asPath);
 
-      if (scenarioKey) {
-        const { scenario, output } = await getScenario(scenarioKey);
+      try {
+        if (scenarioKey) {
+          const { scenario, output, url } = await getScenario(scenarioKey);
 
-        if (scenario && output) {
-          setScenario(scenario);
-          setResultItems([{ data: output }]);
+          if (scenario && output) {
+            const outputItem = [{ data: output }];
+
+            setScenario(scenario);
+            setResultItems(outputItem);
+            setSharedValues({ scenario: scenario, output: outputItem });
+            setShareUrl(url);
+          }
         }
+      } catch (err) {
+        console.log(`Error loading scenario ${scenarioKey}`, err);
       }
     };
 
@@ -107,7 +116,6 @@ const MainContent = () => {
   const run = () => {
     disableRunButton(true);
 
-    // TODO: Reconnect if needed - ensure we're connected first
     if (resultItems.length > 0) {
       setResultItems([]);
     }
@@ -128,10 +136,26 @@ const MainContent = () => {
       return;
     }
 
+    if (
+      sharedValues.scenario === scenarioValue &&
+      sharedValues.output === resultItems
+    ) {
+      console.log('Already have a url for this scenario');
+
+      showShareModal(true);
+
+      return;
+    }
+
     const scenarioUrl = await saveScenario(scenarioValue, resultItems);
 
     setShareUrl(scenarioUrl);
     showShareModal(true);
+
+    setSharedValues({
+      scenario: scenarioValue,
+      output: resultItems,
+    });
   };
 
   return (
