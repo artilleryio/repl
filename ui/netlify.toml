@@ -10,7 +10,7 @@
   # the build. This is relative to the base directory if one has been set, or the
   # root directory if a base has not been set. This sample publishes the
   # directory located at the absolute path "root/project/build-output"
-  publish = "ui/"
+  publish = "out"
 
   # Default build command.
   command = "npm run export"
@@ -28,8 +28,8 @@
 
 # Deploy Preview context: all deploys generated from a pull/merge request will
 # inherit these settings.
-[context.deploy-preview]
-  publish = "out"
+#[context.deploy-preview]
+#  publish = "out"
 
 [[headers]]
   for = "/*"
