@@ -24,13 +24,13 @@ jobs:
               pushd lambda-runner
               npm install
               AWS_PROFILE=repl-deploy npm run deploy:dev
-              URLS=$(./node_modules/.bin/serverless info --verbose | grep ServiceEndpoint | sed s/ServiceEndpoint\.\*\:\ //g)
+              #URLS=$(./node_modules/.bin/serverless info --verbose | grep ServiceEndpoint | sed s/ServiceEndpoint\.\*\:\ //g)
               popd
-              pushd ui
-              echo "VUE_APP_HTTP_BASE_URL=$(echo $URLS | awk -F " " '{ print $1 }')" >> .env
-              echo "VUE_APP_WS_ENDPOINT=$(echo $URLS | awk -F " " '{ print $2 }')" >> .env
-              echo "VUE_APP_BASE_DOMAIN=superrepl.com" >> .env
-              yarn install
-              yarn build
-              yarn add netlify-cli
-              ./node_modules/.bin/netlify deploy --prod --auth $NETLIFY_AUTH_TOKEN --site f9516a60-5190-4b42-b14b-9c0cc2eb8de5 --dir dist
+              #pushd ui
+              #echo "VUE_APP_HTTP_BASE_URL=$(echo $URLS | awk -F " " '{ print $1 }')" >> .env
+              #echo "VUE_APP_WS_ENDPOINT=$(echo $URLS | awk -F " " '{ print $2 }')" >> .env
+              #echo "VUE_APP_BASE_DOMAIN=superrepl.com" >> .env
+              #yarn install
+              #yarn build
+              #yarn add netlify-cli
+              #./node_modules/.bin/netlify deploy --prod --auth $NETLIFY_AUTH_TOKEN --site f9516a60-5190-4b42-b14b-9c0cc2eb8de5 --dir dist

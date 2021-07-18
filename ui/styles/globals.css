@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Martel:wght@800&display=swap');
+
+/* Move these where appropriate */
+.app-sidebar {
+  width: 220px;
+}
+
+.app-main {
+  width: 100%; /* calc(100% - 220px); */
+}
+
+.app-content {
+  height: calc(100vh - 180px);
+}
+
+.fg-gradient-purple-red {
+color: var(--theme-ui-colors-a9, rgb(233, 71, 59));
+background: -webkit-linear-gradient(var(--theme-ui-colors-black-60,#a516b8), var(--theme-ui-colors-a9, rgb(233, 71, 59)));
+background-clip: text;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent
+}

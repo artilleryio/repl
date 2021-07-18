@@ -4,3 +4,6 @@ node_modules
 *.*sw*
 .vscode
 .serverless
+
+# Local Netlify folder
+.netlify
